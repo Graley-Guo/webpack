@@ -1,7 +1,7 @@
 # webpack
 课件
 
-# 使用webpack量身定做前端开发环境
+# webpack基础详解
 
 ## 1、webpack 的安装和使用
 
