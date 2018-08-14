@@ -366,7 +366,7 @@ import "./index.css"
 
 经由上述两个 loader 的处理后，CSS 代码会转变为 JS，和 index.js 一起打包了。如果需要单独把 CSS 文件分离出来，我们需要使用 `extract-text-webpack-plugin` 插件。
 
-`extract-text-webpack-plugin` 这个插件支持 webpack 4.x 的正式版本，所以安装的时候需要指定使用它的 alpha 版本：`npm install extract-text-webpack-plugin@next -D` 或者 `yarn add extract-text-webpack-plugin@next -D`。如果你用的是 webpack 3.x 版本，直接用 `extract-text-webpack-plugin` 现有的版本即可。不过针对webpack4.x可以使用 `mini-css-extract-plugin`。
+`extract-text-webpack-plugin` 这个插件不支持 webpack 4.x 的正式版本，所以安装的时候需要指定使用它的 alpha 版本：`npm install extract-text-webpack-plugin@next -D` 或者 `yarn add extract-text-webpack-plugin@next -D`。如果你用的是 webpack 3.x 版本，直接用 `extract-text-webpack-plugin` 现有的版本即可。不过针对webpack4.x可以使用 `mini-css-extract-plugin`。
 
 看一个简单的例子：
 
