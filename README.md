@@ -1005,7 +1005,7 @@ new webpack.ProvidePlugin({
 
 IgnorePlugin 和 ProvidePlugin 一样，也是一个 webpack 内置的插件，可以直接使用 `webpack.IgnorePlugin` 来获取。
 
-这个插件用于忽略某些特定的模块，让 webpack 不把这些指定的模块打包进去。例如我们使用 [moment.js]()，直接引用后，里边有大量的 i18n 的代码，导致最后打包出来的文件比较大，而实际场景并不需要这些 i18n 的代码，这时我们可以使用 IgnorePlugin 来忽略掉这些代码文件，配置如下：
+这个插件用于忽略某些特定的模块，让 webpack 不把这些指定的模块打包进去。例如我们使用 [moment.js](http://momentjs.cn/docs/)，直接引用后，里边有大量的 i18n 的代码，导致最后打包出来的文件比较大，而实际场景并不需要这些 i18n 的代码，这时我们可以使用 IgnorePlugin 来忽略掉这些代码文件，配置如下：
 
 ```javascript
 module.exports = {
