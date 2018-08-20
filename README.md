@@ -1089,7 +1089,7 @@ webpack 的 plugin 会在构建的过程中加入其它的工作步骤，如果�
 
 从官方发布的 webpack 4.0 更新日志来看，webpack 4.0 版本做了很多关于提升构建性能的工作，我觉得比较重要的改进有这么几个：
 
-- [AST]() 可以直接从 `loader` 直接传递给 webpack，避免额外的解析，对这一个优化细节有兴趣的可以查看这个 PR。
+- AST可以直接从 `loader` 直接传递给 webpack，避免额外的解析。
 - 使用速度更快的 md4 作为默认的 hash 方法，对于大型项目来说，文件一多，需要 hash 处理的内容就多，webpack 的 hash 处理优化对整体的构建速度提升应该还是有一定的效果的。
 - Node 语言层面的优化，如用 `for of` 替换 `forEach`，用 `Map` 和 `Set` 替换普通的对象字面量等等，这一部分就不展开讲了，有兴趣的同学可以去 webpack 的 PRs 寻找更多的内容。
 - 默认开启 `uglifyjs-webpack-plugin` 的 `cache` 和 `parallel`，即缓存和并行处理，这样能大大提高 `production mode` 下压缩代码的速度。
