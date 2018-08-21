@@ -259,6 +259,7 @@ module.exports = {
 }
 ```
 #### 常用loader
+![](https://raw.githubusercontent.com/Graley-Guo/webpack/master/img/%E5%B8%B8%E7%94%A8loader.png)
 
 
 
