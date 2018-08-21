@@ -1,7 +1,8 @@
 # webpack基础详解
 ## 1、webpack的产生和意义
-webpack 本质上是一个打包工具，它会根据代码的内容解析模块依赖，帮助我们把多个模块的代码打包。借用 webpack 官网的图片： ![](https://user-gold-cdn.xitu.io/2018/7/23/164c5106ffe2c72d?w=1280&h=506&f=webp&s=11674)
 
+webpack 本质上是一个打包工具，它会根据代码的内容解析模块依赖，帮助我们把多个模块的代码打包。借用 webpack 官网的图片： ![](https://user-gold-cdn.xitu.io/2018/7/23/164c5106ffe2c72d?w=1280&h=506&f=webp&s=11674)
+打包目的：减少代码体积，减少网络请求。
 
 ## 2、webpack 的安装和使用
 ### npm、yarn是什么
