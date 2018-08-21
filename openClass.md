@@ -64,7 +64,6 @@ yarn add webpack -D
 webpack 运行时默认读取项目下的 `webpack.config.js` 文件作为配置。
 所以我们在项目中创建一个 `webpack.config.js` 文件：
 【例子一】
-webpack 的配置其实是一个 Node.js 的脚本，这个脚本对外暴露一个配置对象，webpack 通过这个对象来读取相关的一些配置。可以使用任何的 Node.js 模块，如上述用到的 `path` 模块，当然第三方的模块也可以。
 
 创建了 webpack.config.js 后再执行 webpack 命令，webpack 就会使用这个配置文件的配置了。
 
