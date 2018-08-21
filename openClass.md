@@ -15,7 +15,7 @@ npm（node package manager）node的包管理工具。
 
 在远端有一个`npm`服务器，里面有很多别人写的代码，我们可以直接使用npm下载使用；同时你也可以把自己写的代码推送到npm 服务器，让别人使用；
 
-Yarn 对你的代码来说是一个包管理器， 你可以通过它使用全世界开发者的代码，或者分享自己的代码。
+Yarn 对代码来说是一个包管理器， 你可以通过它使用全世界开发者的代码，或者分享自己的代码。
 
 ### webpack 安装
 我们使用 npm 或者 yarn 来安装 webpack，可以作为一个全局的命令来使用：
@@ -43,8 +43,7 @@ npm install webpack -D //devDependencies用于本地环境开发时候，
 yarn add webpack -D
 ```
 
-这样 webpack 会出现在 package.json 中，我们再添加一个 npm scripts：
-`Npm Script`	 则是 Npm 内置的一个功能，他可以说是一个执行者，允许在 package.json 文件里面使用 scripts 字段定义任务：
+这样 webpack 会出现在 package.json 中，我们再添加一个 npm scripts：允许在 package.json 文件里面使用 scripts 字段定义任务：
 
 ```json
 "scripts": {
@@ -259,6 +258,9 @@ module.exports = {
   }
 }
 ```
+#### 常用loader
+
+
 
 > style-loader 和 css-loader 都是单独的 node package，需要安装。
 
@@ -303,79 +305,6 @@ module.exports = {
 }
 ```
 
-#### CSS 预处理器
-
-在上述使用 CSS 的基础上，通常我们会使用 Less/Sass 等 CSS 预处理器，webpack 可以通过添加对应的 loader 来支持，以使用 Less 为例，我们可以在官方文档中找到对应的 `loader`。
-
-我们需要在上面的 webpack 配置中，添加一个配置来支持解析后缀为 `.less` 的文件：
-
-```javascript
-module.exports = {
-  // ...
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            'less-loader',
-          ],
-        }),
-      },
-    ],
-  },
-  // ...
-}
-```
-
-#### 处理图片文件
-
-在前端项目的样式中总会使用到图片，虽然我们已经提到 css-loader 会解析样式中用 `url()` 引用的文件路径，但是图片对应的 jpg/png/gif 等文件格式，webpack 处理不了。是的，我们只要添加一个处理图片的 loader 配置就可以了，现有的 file-loader 就是个不错的选择。
-
-file-loader 可以用于处理很多类型的文件，它的主要作用是直接输出文件，把构建后的文件路径返回。配置很简单，在 `rules`中添加一个字段，增加图片类型文件的解析配置：
-
-```javascript
-module.exports = {
-  // ...
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {},
-          },
-        ],
-      },
-    ],
-  },
-}
-```
-
-#### 使用 Babel
-
-`Babel` 是一个让我们能够使用 ES 新特性的 JS 编译工具，我们可以在 webpack 中配置 Babel，以便使用 ES6、ES7 标准来编写 JS 代码。
-
-```javascript
-module.exports = {
-  // ...
-  module: {
-    rules: [
-      {
-        test: /\.jsx?/, // 支持 js 和 jsx
-        include: [
-          path.resolve(__dirname, 'src'), // src 目录下的才需要经过 babel-loader 处理
-        ],
-        loader: 'babel-loader',
-      },
-    ],
-  },
-}
-```
 
 Babel 的相关配置可以在目录下使用 .babelrc 文件来处理，详细参考 Babel 官方文档 [.babelrc](http://babeljs.io/docs/en/babelrc/)。
 ### loader 应用顺序
@@ -425,38 +354,6 @@ rules: [
 在 webpack 的构建流程中，plugin 用于处理更多其他的一些构建任务。可以这么理解，模块代码转换的工作由 loader 来处理，除此之外的其他任何工作都可以交由 plugin 来完成。它们在 webpack 中的配置都只是把插件实例添加到 plugins 字段的数组中。不过由于需要提供不同的功能，不同的插件本身的配置比较多样化。
 
 下面通过介绍几个常用的插件来了解插件的使用方法。
-### html-webpack-plugin 
-webpack 默认从作为入口的 .js 文件进行构建，但通常一个前端项目都是从一个页面（即 HTML）出发的，最简单的方法是，创建一个 HTML 文件，使用 script 标签直接引用构建好的 JS 文件，如：
-
-```html
-<script src="./dist/bundle.js"></script>
-```
-
-但是，如果我们的文件名或者路径会变化，例如使用 `[hash]` 来进行命名，那么最好是将 HTML 引用路径和我们的构建结果关联起来，这个时候我们可以使用 `html-webpack-plugin`。
-
-html-webpack-plugin 是一个独立的 node package，所以在使用之前我们需要先安装它，把它安装到项目的开发依赖中：
-
-```shell
-npm install html-webpack-plugin -D
-
-# 或者
-yarn add html-webpack-plugin -D
-```
-
-然后在 webpack 配置中，将 html-webpack-plugin 添加到 plugins 列表中：
-```javascript
-module.exports = {
-  // ...
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html', // 配置输出文件名和路径
-      template: 'assets/index.html', // 配置文件模板
-    }),
-  ],
-}
-```
-
-如果需要添加多个页面关联，那么实例化多个 html-webpack-plugin， 并将它们都放到 `plugins` 字段数组中就可以了。
 
 ### uglifyjs-webpack-plugin
 要使用压缩 JS 代码的 uglifyjs-webpack-plugin 插件，只需在配置中通过 plugins 字段添加新的 plugin 即可：
@@ -470,158 +367,13 @@ module.exports = {
   ],
 }
 ```
-### DefinePlugin
 
-DefinePlugin 是 webpack 内置的插件，可以使用`webpack.DefinePlugin` 直接获取。
-
-这个插件用于创建一些在编译时可以配置的全局常量，这些常量的值我们可以在 webpack 的配置中去指定，例如：
-
-```javascript
-module.exports = {
-  // ...
-  plugins: [
-    new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(true), // const PRODUCTION = true
-      VERSION: JSON.stringify('5fa3b9'), // const VERSION = '5fa3b9'
-      BROWSER_SUPPORTS_HTML5: true, // const BROWSER_SUPPORTS_HTML5 = 'true'
-      TWO: '1+1', // const TWO = 1 + 1,
-      CONSTANTS: {
-        APP_VERSION: JSON.stringify('1.1.2') // const CONSTANTS = { APP_VERSION: '1.1.2' }
-      }
-    }),
-  ],
-}
-```
-
-有了上面的配置，就可以在应用代码文件中，访问配置好的变量了，如：
-
-```javascript
-console.log("Running App version " + VERSION);
-
-if(!BROWSER_SUPPORTS_HTML5) require("html5shiv");
-```
-
-上面配置的注释已经简单说明了这些配置的效果，这里再简述一下整个配置规则。
-
-
-社区中关于 `DefinePlugin` 使用得最多的方式是定义环境变量，例如 `PRODUCTION = true` 或者 `__DEV__ = true` 等。部分类库在开发环境时依赖这样的环境变量来给予开发者更多的开发调试反馈，例如 react 等。
-
-> 建议使用 process.env.NODE_ENV: ... 的方式来定义 process.env.NODE_ENV，而不是使用 process: { env: { NODE_ENV: ... } } 的方式，因为这样会覆盖掉 process 这个对象，可能会对其他代码造成影响。
-
-### copy-webpack-plugin
-
-这个插件看名字就知道它有什么作用，没错，就是用来复制文件的。
-
-我们一般会把开发的所有源码和资源文件放在 src/ 目录下，构建的时候产出一个 build/ 目录，通常会直接拿 build 中的所有文件来发布。有些文件没经过 webpack 处理，但是我们希望它们也能出现在 build 目录下，这时就可以使用 CopyWebpackPlugin 来处理了。
-
-我们来看下如何配置这个插件：
-
-```javascript
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
-module.exports = {
-  // ...
-  plugins: [
-    new CopyWebpackPlugin([
-      { from: 'src/file.txt', to: 'build/file.txt', }, // 顾名思义，from 配置来源，to 配置目标路径
-      { from: 'src/*.ico', to: 'build/*.ico' }, // 配置项可以使用 glob
-      // 可以配置很多项复制规则
-    ]),
-  ],
-}
-```
-
-### extract-text-webpack-plugin
-
-extract-text-webpack-plugin 之前有简单介绍过，我们用它来把依赖的 CSS 分离出来成为单独的文件。这里再看一下使用 extract-text-webpack-plugin 的配置：
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-```javascript
-module.exports = {
-  // ...
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-        }),
-      },
-    ],
-  },
-  plugins: [
-    // 引入插件，配置文件名，这里同样可以使用 [hash]
-    new ExtractTextPlugin('index.css'),
-  ],
-}
-```
-
-在上述的配置中，我们使用了 index.css 作为单独分离出来的文件名，但有的时候构建入口不止一个，extract-text-webpack-plugin 会为每一个入口创建单独分离的文件，因此最好这样配置：
-
-```javascript
-plugins: [
-  new ExtractTextPlugin('[name].css'),
-],
-```
-
-这样确保在使用多个构建入口时，生成不同名称的文件。
-
-这里再次提及 extract-text-webpack-plugin，一个原因是它是一个蛮常用的插件，另一个原因是它的使用方式比较特别，除了在 `plugins` 字段添加插件实例之外，还需要调整 loader 对应的配置。
-
-在这里要强调的是，在 webpack 中，loader 和 plugin 的区分是很清楚的，针对文件模块转换要做的使用 loader，而其他干涉构建内容的可以使用 plugin。 ExtractTextWebpackPlugin 既提供了 plugin，也提供了 extract 方法来获取对应需要的 loader。
-
-### ProvidePlugin
-
-ProvidePlugin 也是一个 webpack 内置的插件，我们可以直接使用 `webpack.ProvidePlugin` 来获取。
-
-该组件用于引用某些模块作为应用运行时的变量，从而不必每次都用 `require` 或者 `import`，其用法相对简单：
-
-```javascript
-new webpack.ProvidePlugin({
-  identifier: 'module',
-  // ...
-})
-
-// 或者
-new webpack.ProvidePlugin({
-  identifier: ['module', 'property'], // 即引用 module 下的 property，类似 import { property } from 'module'
-  // ...
-})
-```
-
-在你的代码中，当 identifier 被当作未赋值的变量时，module 就会被自动加载了，而 identifier 这个变量即 module 对外暴露的内容。
-
-注意，如果是 ES 的 `default export`，那么你需要指定模块的 `default` 属性：`identifier: ['module', 'default'],`。
-
-### IgnorePlugin
-
-IgnorePlugin 和 ProvidePlugin 一样，也是一个 webpack 内置的插件，可以直接使用 `webpack.IgnorePlugin` 来获取。
-
-这个插件用于忽略某些特定的模块，让 webpack 不把这些指定的模块打包进去。例如我们使用 [moment.js](http://momentjs.cn/docs/)，直接引用后，里边有大量的 i18n 的代码，导致最后打包出来的文件比较大，而实际场景并不需要这些 i18n 的代码，这时我们可以使用 IgnorePlugin 来忽略掉这些代码文件，配置如下：
-
-```javascript
-module.exports = {
-  // ...
-  plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ]
-}
-```
-
-IgnorePlugin 配置的参数有两个，第一个是匹配引入模块路径的正则表达式，第二个是匹配模块的对应上下文，即所在目录名。防止在 import 或 require 调用时，生成的本地文件夹下忽略moment文件夹。
 
 ## 8、webpack 如何解析代码模块路径
 
 在 webpack 支持的前端代码模块化中，我们可以使用类似 `import * as m from './index.js'` 来引用代码模块 `index.js`。
 
-引用第三方类库则是像这样：`import React from 'react'`。webpack 构建的时候，会解析依赖后，然后再去加载依赖的模块文件，那么 webpack 如何将上述编写的 `./index.js` 或 `react` 解析成对应的模块文件路径呢？
-
-webpack 中有一个很关键的模块 `enhanced-resolve` 就是处理依赖模块路径的解析的，这个模块可以说是 Node.js 那一套模块路径解析的增强版本，有很多可以自定义的解析配置。
-
-> 不熟悉 Node.js 模块路径解析机制的同学可以参考这篇文章：深入 [Node.js 的模块机制](http://www.infoq.com/cn/articles/nodejs-module-mechanism)。
+引用第三方类库则是像这样：`import React from 'react'`。webpack 构建的时候，会解析依赖后，然后再去加载依赖的模块文件，那么 webpack 如何将上述编写的 `./index.js` 或 `react` 解析成对应的模块文件路径呢
 
 ### 模块解析规则
 
@@ -688,20 +440,16 @@ alias: {
 
 ### 9、devServer
 
-实际开发中我们会需要做到以下几点：
+#### 为什么要使用devServer？
+在开发模式下，DevServer 提供虚拟服务器，让我们进行开发和调试，而且提供实时重新加载。他没有进行写的过程，即没有重新生成dist文件。如果我们重新build，会执行写的过程，会特别慢。大大减少开发时间。DevServer 会把 Webpack 构建出的文件保存在内存中，在要访问输出的文件时，必须通过 HTTP 服务访问。
 
-1. 提供 HTTP 服务而不是使用本地文件预览；
-2. 监听文件的变化并自动刷新网页，做到实时预览；
-3. 支持 Source Map，以方便调试。
-
-对于这些， Webpack 都为你考虑好了。Webpack 原生支持上述第2、3点内容，再结合官方提供的开发工具 `DevServer` 也可以很方便地做到第1点。 `DevServer` 会启动一个 HTTP 服务器用于服务网页请求，同时会帮助启动 Webpack ，并接收 Webpack 发出的文件更变信号，通过 WebSocket 协议自动刷新网页做到实时预览。
 他的安装
 
 ```shell
 npm i -D webpack-dev-server
 ```
 安装成功后执行 webpack-dev-server 命令， DevServer 就启动了。
-`DevServer` 启动后会一直驻留在后台保持运行，访问这个网址你就能获取项目根目录下的 index.html。 同时你会发现并没有文件输出到 dist 目录，原因是 DevServer 会把 Webpack 构建出的文件保存在内存中，在要访问输出的文件时，必须通过 HTTP 服务访问。
+
 几个常用配置：
 #### hot
 `devServer. hot `配置是否启用模块热替换功能。 DevServer 默认的行为是在发现源代码被更新后会通过自动刷新`整个页面`来做到实时预览，开启模块热替换功能后将在不刷新整个页面的情况下通过用新模块替换老模块来做到实时预览。
@@ -807,7 +555,7 @@ webpack 的 plugin 会在构建的过程中加入其它的工作步骤，如果�
 
 从官方发布的 webpack 4.0 更新日志来看，webpack 4.0 版本做了很多关于提升构建性能的工作，我觉得比较重要的改进有这么几个：
 
-- AST可以直接从 `loader` 直接传递给 webpack，避免额外的解析。
+- AST语法数可以直接从 `loader` 直接传递给 webpack，避免额外的解析。
 - 使用速度更快的 md4 作为默认的 hash 方法，对于大型项目来说，文件一多，需要 hash 处理的内容就多，webpack 的 hash 处理优化对整体的构建速度提升应该还是有一定的效果的。
 - Node 语言层面的优化，如用 `for of` 替换 `forEach`，用 `Map` 和 `Set` 替换普通的对象字面量等等。
 - 默认开启 `uglifyjs-webpack-plugin` 的 `cache` 和 `parallel`，即缓存和并行处理，这样能大大提高 `production mode` 下压缩代码的速度。
