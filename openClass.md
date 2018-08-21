@@ -258,10 +258,6 @@ module.exports = {
   }
 }
 ```
-#### 常用loader
-![](https://raw.githubusercontent.com/Graley-Guo/webpack/master/img/%E5%B8%B8%E7%94%A8loader.png)
-
-
 
 > style-loader 和 css-loader 都是单独的 node package，需要安装。
 
@@ -305,9 +301,10 @@ module.exports = {
   ],
 }
 ```
+#### 常用loader
+![](https://raw.githubusercontent.com/Graley-Guo/webpack/master/img/%E5%B8%B8%E7%94%A8loader.png)
 
 
-Babel 的相关配置可以在目录下使用 .babelrc 文件来处理，详细参考 Babel 官方文档 [.babelrc](http://babeljs.io/docs/en/babelrc/)。
 ### loader 应用顺序
 
 前面提到，一个匹配规则中可以配置使用多个 loader，即一个模块文件可以经过多个 loader 的转换处理，执行顺序是从最后配置的 loader 开始，一步步往前。例如，对于上面的 `less` 规则配置，一个 style.less 文件会途径 less-loader、css-loader、style-loader 处理，成为一个可以打包的模块。
@@ -368,7 +365,8 @@ module.exports = {
   ],
 }
 ```
-
+### 常用plugin
+![](https://raw.githubusercontent.com/Graley-Guo/webpack/master/img/%E5%B8%B8%E7%94%A8plugin.png)
 
 ## 8、webpack 如何解析代码模块路径
 
