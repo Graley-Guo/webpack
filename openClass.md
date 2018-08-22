@@ -34,7 +34,7 @@ npm（node package manager）node的包管理工具。
 Yarn 对代码来说是一个包管理器， 你可以通过它使用全世界开发者的代码，或者分享自己的代码。
 
 ### webpack 安装
-我们使用 npm 或者 yarn 来<font style="color:red;">安装webpack</font> ，可以作为一个全局的命令来使用：
+我们使用 npm 或者 yarn 来安装webpack ，可以作为一个全局的命令来使用：
 
 ```shell
 npm install webpack webpack-cli -g
