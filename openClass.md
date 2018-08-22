@@ -1,4 +1,20 @@
 # webpack基础详解
+## 0、目的地
+
+1. webpack的意义
+2. webpack的安装和使用
+3. webpack的配置
+   - 入口
+   - 输出
+   - loader
+   - plugin
+   - resolve 代码解析
+   - devServer
+4. 提升webpack构建速度
+5. webpack4.X性能优化
+  
+
+
 ## 1、webpack的产生和意义
 
 webpack 本质上是一个打包工具，它会根据代码的内容解析模块依赖，帮助我们把多个模块的代码打包。借用 webpack 官网的图片： ![](https://user-gold-cdn.xitu.io/2018/7/23/164c5106ffe2c72d?w=1280&h=506&f=webp&s=11674)
